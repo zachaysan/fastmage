@@ -1,8 +1,19 @@
 import tornado.ioloop
 import tornado.web
+from tornado.options import define, options, logging
 import os
 import uuid
 from pprint import pprint
+
+define("port", default=8877, help="run on the given port", type=int)
+
+settings = {
+    "debug": True,
+}
+
+server_settings = {
+    "xheaders" : True,
+}
 
 class ImageHandler(tornado.web.RequestHandler):
     def get(self):
@@ -26,11 +37,13 @@ settings = {
 }
 
 application = tornado.web.Application([
-    (r'/', ImageHandler),
+    (r'/images', ImageHandler),
 ], **settings)
 
 def main():
-    application.listen(8877)
+    tornado.options.parse_command_line()
+    logging.info("Starting Tornado web server on http://localhost:%s" % options.port)
+    application.listen(options.port, **server_settings)
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == '__main__':
