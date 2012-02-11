@@ -20,7 +20,7 @@ class ImageHandler(tornado.web.RequestHandler):
         self.render('fastmage.html')
 
     def post(self):
-        def filewriter(comlink_file, file_path=None):
+        def filewriter(comlink_file, node, file_path=None):
             if not file_path:
                 file_path = os.path.join(os.path.dirname(__file__), "uploads")
             filename = os.path.join(file_path, str(uuid.uuid1()))
@@ -30,7 +30,7 @@ class ImageHandler(tornado.web.RequestHandler):
             return filename
         filename = filewriter(self.request.files['comlink_file'][0]['body'])
         self.set_header("Content-Type", "text/plain")
-        self.write("file saved as " + filename)
+        self.write("file saved as " + filename " user: " + node)
 
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
