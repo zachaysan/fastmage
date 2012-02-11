@@ -30,7 +30,7 @@ class ImageHandler(tornado.web.RequestHandler):
             return filename
         filename = filewriter(self.request.files['comlink_file'][0]['body'])
         self.set_header("Content-Type", "text/plain")
-        self.write("file saved as " + filename " user: " + node)
+        self.write("file saved as " + filename + " user: " + node)
 
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "static"),
